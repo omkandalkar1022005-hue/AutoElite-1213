@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AutoElite | Multi-Vehicle Marketplace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0f1e;
+      color: #eef2ff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 10px; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 4%;
+      background: rgba(2, 6, 23, 0.97);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #1e293b;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: #38bdf8;
+    }
+
+    header h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      margin: 0 3px;
+      color: #cbd5e6;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 40px;
+      transition: 0.25s;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    nav a:hover, nav a.active {
+      background: #1e293b;
+      color: #38bdf8;
+    }
+
+    .category-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .category-btn {
+      background: #1e293b;
+      color: #cbd5e6;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .category-btn:hover {
+      background: #334155;
+      color: #38bdf8;
+    }
+
+    .category-menu {
+      display: none;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      min-width: 180px;
+      z-index: 200;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .category-menu a {
+      display: block;
+      padding: 10px 18px;
+      color: #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .category-menu a:hover {
+      background: #1e293b;
+      color: #38bdf8;
+    }
+
+    .category-dropdown:hover .category-menu {
+      display: block;
+    }
+
+    .cart-badge {
+      background: #38bdf8;
+      color: #0a0f1e;
+      border-radius: 30px;
+      padding: 3px 8px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    .lang-select {
+      background: #1e293b;
+      color: white;
+      border: 1px solid #334155;
+      padding: 7px 12px;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(15,25,45,0.85)), url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      max-width: 650px;
+      margin: 1rem 0;
+    }
+
+    .search-box {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 1rem auto;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 50px 0 0 50px;
+      background: #f1f5f9;
+      color: #0f172a;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-box button {
+      padding: 14px 28px;
+      border: none;
+      background: #13f531;
+      font-weight: 700;
+      border-radius: 0 50px 50px 0;
+      cursor: pointer;
+    }
+
+    .hero .explore-btn {
+      padding: 12px 32px;
+      background: rgba(251, 237, 40, 0.9);
+      border: none;
+      font-weight: 700;
+      border-radius: 40px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .section {
+      padding: 60px 5%;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+    .section h2:after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: #38bdf8;
+      margin: 12px auto 0;
+      border-radius: 4px;
+    }
+
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 30px 0 20px;
+    }
+
+    .cat-filter {
+      background: #1e293b;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: #cbd5e6;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .cat-filter.active, .cat-filter:hover {
+      background: #38bdf8;
+      color: #0a0f1e;
+    }
+
+    .vehicles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: #0f172a;
+      border-radius: 28px;
+      overflow: hidden;
+      transition: 0.3s;
+      border: 1px solid #1e293b;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: #38bdf8;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      margin: 12px 0 5px;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px 20px;
+    }
+
+    .viewBtn, .cartBtn {
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+    }
+
+    .viewBtn {
+      background: transparent;
+      border: 1.5px solid #38bdf8;
+      color: #38bdf8;
+    }
+
+    .cartBtn {
+      background: #1e293b;
+      border: none;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .cartBtn:hover {
+      background: #38bdf8;
+      color: #0a0f1e;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #0f172a;
+      border-left: 5px solid #38bdf8;
+      padding: 12px 20px;
+      border-radius: 14px;
+      z-index: 1000;
+    }
+
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 380px;
+      height: 100vh;
+      background: #0a0f1ecc;
+      backdrop-filter: blur(20px);
+      border-left: 1px solid #334155;
+      z-index: 1000;
+      transition: 0.35s;
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-sidebar.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 15px;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      margin: 20px 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      background: #0f172a;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 16px;
+    }
+
+    .cart-total {
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-top: 1px solid #2d3a5e;
+      padding-top: 15px;
+      text-align: right;
+    }
+
+    .checkout-btn {
+      background: #38bdf8;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 680px) {
+      .hero h2 { font-size: 2rem; }
+      .cart-sidebar { width: 100%; right: -100%; }
+      nav a { padding: 6px 10px; font-size: 0.8rem; }
+    }
+    /* Top Models Section */
+.top-models {
+  background: linear-gradient(135deg, #0f172a 0%, #0a0f1e 100%);
+  padding: 60px 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+.top-models::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.model-card {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.model-card:hover {
+  transform: translateY(-12px);
+  border-color: #38bdf8;
+  box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.3);
+}
+
+.model-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #0a0f1e;
+  z-index: 2;
+}
+
+.model-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.model-card:hover img {
+  transform: scale(1.05);
+}
+
+.model-info {
+  padding: 20px;
+}
+
+.model-info h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.model-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin: 10px 0;
+}
+
+.model-features {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.model-features span i {
+  margin-right: 5px;
+  color: #38bdf8;
+}
+
+.model-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid #38bdf8;
+  border-radius: 40px;
+  color: #38bdf8;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.model-btn:hover {
+  background: #38bdf8;
+  color: #0a0f1e;
+}
+
+/* Attractive Footer */
+.footer {
+  background: linear-gradient(135deg, #020617 0%, #0a0f1e 100%);
+  margin-top: 60px;
+  position: relative;
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.footer-wave {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.footer-wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 50px;
+}
+
+.footer-content {
+  padding: 60px 5% 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+}
+
+.footer-section h3 {
+  color: #38bdf8;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.footer-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: #38bdf8;
+}
+
+.footer-section p {
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 15px 0;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-links a:hover {
+  color: #38bdf8;
+  transform: translateX(5px);
+}
+
+.newsletter-form {
+  display: flex;
+  margin-top: 15px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 40px 0 0 40px;
+  color: white;
+  outline: none;
+}
+
+.newsletter-form button {
+  padding: 12px 20px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 0 40px 40px 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.newsletter-form button:hover {
+  background: #0ea5e9;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-icon-footer {
+  width: 40px;
+  height: 40px;
+  background: #1e293b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.social-icon-footer:hover {
+  background: #38bdf8;
+  color: #0a0f1e;
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 25px;
+  border-top: 1px solid rgba(56, 189, 248, 0.1);
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.footer-bottom a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.payment-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+  font-size: 1.8rem;
+  color: #64748b;
+}
+
+.payment-icons i {
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.payment-icons i:hover {
+  color: #38bdf8;
+  transform: scale(1.1);
+}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <i class="fas fa-truck-moving"></i>
+    <h1 id="logo">AutoElite</h1>
+  </div>
+  <nav>
+    <a href="index.html" id="navHome"><i class="fas fa-home"></i> <span>Home</span></a>
+    
+    <!-- Category Dropdown with all requested types -->
+    <div class="category-dropdown">
+      <button class="category-btn" id="categoryBtn"><i class="fas fa-list"></i> <span id="categoriesText">Categories</span> ▼</button>
+      <div class="category-menu" id="categoryMenu">
+        <a href="#" data-cat="all"><i class="fas fa-globe"></i> All Vehicles</a>
+        <a href="#" data-cat="Two Wheeler"><i class="fas fa-motorcycle"></i> Two Wheeler</a>
+        <a href="four_wheel.html" data-cat="Four Wheeler"><i class="fas fa-car"></i> Four Wheeler</a>
+        <a href="#" data-cat="Non Gear"><i class="fas fa-scooter"></i> Non Gear</a>
+        <a href="#" data-cat="Tempo"><i class="fas fa-truck"></i> Tempo</a>
+        <a href="#" data-cat="Truck"><i class="fas fa-truck-moving"></i> Truck</a>
+        <a href="#" data-cat="Dumper"><i class="fas fa-dump-truck"></i> Dumper</a>
+        <a href="#" data-cat="Trailer"><i class="fas fa-trailer"></i> Trailer</a>
+        <a href="#" data-cat="Earthmovers"><i class="fas fa-tractor"></i> Earthmovers</a>
+        <a href="#" data-cat="Machine"><i class="fas fa-cogs"></i> Heavy Machine</a>
+      </div>
+    </div>
+    <a href="#" id="navCartBtnNav"><i class="fas fa-shopping-cart"></i> <span>Cart</span> <span id="cartCountBadge" class="cart-badge">0</span></a>
+    <a href="signin.html" id="navLogin"><i class="fas fa-user-circle"></i> <span>Login</span></a>
+    <select class="lang-select" id="langSelect">
+      <option value="en">🇬🇧 English</option>
+      <option value="hi">🇮🇳 हिंदी</option>
+      <option value="mr">🇮🇳 मराठी</option>
+    </select>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2 id="heroTitle">Find Your Dream Vehicle</h2>
+  <p id="heroDesc">Two Wheelers | Four Wheelers | Trucks | Dumper | Trailers | Earthmovers & Heavy Machinery</p>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search by name, brand or type...">
+    <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+  </div>
+  <button class="explore-btn" id="exploreBtn"><i class="fas fa-arrow-right"></i> Explore Now</button>
+</section>
+<!-- Top Models Section -->
+<section class="top-models">
+  <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 20px;">🏆 Top Trending Models</h2>
+  <p style="text-align: center; color: #94a3b8; margin-bottom: 20px;">Most popular vehicles of the month</p>
+  <div class="models-grid" id="topModelsContainer"></div>
+ 
+</section>
+<section class="section" id="vehiclesSection">
+  <h2 id="popularTitle">🔥 Premium Fleet</h2>
+  <div class="category-tabs" id="quickCats"></div>
+  <div class="vehicles" id="vehiclesContainer"></div>
+</section>
+
+
+<section class="section">
+  <h2 id="whyTitle">⭐ Why Choose Us?</h2>
+  <p id="whyDesc" style="font-size:1.1rem;">✔ Best Prices | ✔ Trusted Dealers | ✔ Pan India Delivery | ✔ 24/7 Support | ✔ Free Insurance | ✔ EMI Options</p>
+</section>
+
+<!-- Impressive Footer -->
+<footer class="footer">
+  <div class="footer-wave">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#0a0f1e" opacity=".25"></path>
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#0a0f1e" opacity=".5"></path>
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#0a0f1e"></path>
+    </svg>
+  </div>
+  
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-car-side"></i> AutoElite</h3>
+      <p>India's most trusted vehicle marketplace. 10,000+ vehicles sold with 100% customer satisfaction.</p>
+      <div class="social-icons">
+        <a href="#" class="social-icon-footer"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon-footer"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon-footer"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon-footer"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-icon-footer"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> How It Works</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Financing Options</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Sell Your Vehicle</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Support</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h3>Categories</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-motorcycle"></i> Two Wheelers</a></li>
+        <li><a href="#"><i class="fas fa-car"></i> Four Wheelers</a></li>
+        <li><a href="#"><i class="fas fa-truck"></i> Commercial Vehicles</a></li>
+        <li><a href="#"><i class="fas fa-tractor"></i> Heavy Machinery</a></li>
+        <li><a href="#"><i class="fas fa-bolt"></i> Electric Vehicles</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h3>Newsletter</h3>
+      <p>Get latest deals & offers directly in your inbox!</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email address" id="newsletterEmail">
+        <button onclick="subscribeNewsletter()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+      <div class="payment-icons">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-amex"></i>
+        <i class="fab fa-cc-paypal"></i>
+        <i class="fas fa-rupee-sign"></i>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>© 2026 AutoElite | Premium Vehicle Marketplace. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    <p style="margin-top: 10px; font-size: 0.75rem;">🚀 Drive the Future with AutoElite</p>
+    <p id="footerText" style="display: none;">© 2026 AutoElite | All Vehicles One Stop 🚛</p>
+  </div>
+</footer>
+
+<div id="cartSidebar" class="cart-sidebar">
+  <div class="cart-header"><span><i class="fas fa-shopping-bag"></i> Your Cart</span><button class="close-cart" id="closeCartBtn">&times;</button></div>
+  <div id="cartItemsList" class="cart-items">✨ Cart empty</div>
+  <div class="cart-total">Total: <span id="cartTotalPrice">₹0</span></div>
+  <button class="checkout-btn" id="checkoutBtn">🛒 Checkout</button>
+</div>
+
+<script>
+  // ---------- EXPANDED VEHICLE DATABASE with all categories ----------
+    // ---------- TOP TRENDING MODELS ----------
+  const topModels = [
+    { 
+      id: 101, 
+      name: "Tesla Model Y", 
+      price: 7200000, 
+      features: ["Electric", "Autopilot", "600km Range"], 
+      img: "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80", 
+      badge: "🔥 HOTTEST",
+      rating: "4.9 ★"
+    },
+    { 
+      id: 102, 
+      name: "BMW M4 Competition", 
+      price: 16500000, 
+      features: ["510 BHP", "0-100 3.5s", "V6 Engine"], 
+      img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80", 
+      badge: "⭐ TOP RATED",
+      rating: "4.8 ★"
+    },
+    { 
+      id: 103, 
+      name: "Royal Enfield Shotgun 650", 
+      price: 398000, 
+      features: ["650cc", "Cruiser", "Retro Design"], 
+      img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80", 
+      badge: "TRENDING",
+      rating: "4.7 ★"
+    },
+    { 
+      id: 104, 
+      name: "Mercedes-Benz EQS", 
+      price: 16500000, 
+      features: ["770km Range", "Luxury", "Electric"], 
+      img: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80", 
+      badge: "NEW LAUNCH",
+      rating: "4.9 ★"
+    }
+  ];
+
+  // ---------- EXPANDED VEHICLE DATABASE with all categories ----------
+  const vehiclesData = [
+    { id: 1, name: "BMW R 1250 GS", price: 1850000, category: "Two Wheeler", type: "Bike", img: "tesla.jpg", brand: "BMW" },
+    { id: 2, name: "Honda Activa 6G", price: 78000, category: "Non Gear", type: "Scooter", img: "activa.jpg", brand: "Honda" },
+    { id: 3, name: "Toyota Fortuner", price: 3850000, category: "Four Wheeler", type: "SUV", img: "fortuner.jpg", brand: "Toyota" },
+    { id: 4, name: "Mahindra Jeeto", price: 450000, category: "Tempo", type: "Mini Truck", img: "jeeto.jpg", brand: "Mahindra" },
+    { id: 5, name: "Ashok Leyland 1612", price: 2850000, category: "Truck", type: "Heavy Truck", img: "leland.jpg", brand: "Ashok Leyland" },
+    { id: 6, name: "BharatBenz Dumper", price: 4200000, category: "Dumper", type: "Mining Dumper", img: "dumper.avif", brand: "BharatBenz" },
+    { id: 7, name: "Tata Trailer 40FT", price: 5500000, category: "Trailer", type: "Container Trailer", img: "trailer.jpg", brand: "Tata Motors" },
+    { id: 8, name: "JCB 3DX Backhoe", price: 3200000, category: "Earthmovers", type: "Excavator", img: "3d.jpg", brand: "JCB" },
+    { id: 9, name: "Caterpillar D6 Dozer", price: 12800000, category: "Machine", type: "Bulldozer", img: "caterpiller.jpg", brand: "Caterpillar" },
+    { id: 10, name: "Royal Enfield Hunter 350", price: 179000, category: "Two Wheeler", type: "Cruiser", img: "hunter.jpg", brand: "Royal Enfield" },
+    { id: 11, name: "TVS Jupiter", price: 82000, category: "Non Gear", type: "Scooter", img: "jupitor.jpg", brand: "TVS" },
+    { id: 12, name: "Mahindra Thar", price: 1650000, category: "Four Wheeler", type: "Off-Road", img: "thar.jpg", brand: "Mahindra" },
+    { id: 13, name: "Force Tempo Traveller", price: 1850000, category: "Tempo", type: "Passenger", img: "force.jpg", brand: "Force" },
+    { id: 14, name: "Eicher Pro 1110", price: 2400000, category: "Truck", type: "Medium Truck", img: "eicher.jpg", brand: "Eicher" },
+    { id: 15, name: "Komatsu Dumper HD", price: 8900000, category: "Dumper", type: "Articulated", img: "kom_dumper.jpg", brand: "Komatsu" },
+    { id: 16, name: "Trailer Lowbed", price: 4800000, category: "Trailer", type: "Lowbed", img: "lowbed_traler.jpg", brand: "Volvo" },
+    { id: 17, name: "Hitachi Excavator", price: 7200000, category: "Earthmovers", type: "Hydraulic", img: "tata.jpg", brand: "Hitachi" },
+    { id: 18, name: "Poclain Machine", price: 4500000, category: "Machine", type: "Heavy Loader", img: "pocklane.jpg", brand: "Poclain" },
+    { id: 1, name: "BMW R 1250 GS", price: 1850000, category: "Two Wheeler", type: "Bike", img: "tesla.jpg", brand: "BMW" },
+    { id: 2, name: "Honda Activa 6G", price: 78000, category: "Non Gear", type: "Scooter", img: "activa.jpg", brand: "Honda" },
+    { id: 3, name: "Toyota Fortuner", price: 3850000, category: "Four Wheeler", type: "SUV", img: "fortuner.jpg", brand: "Toyota" },
+    { id: 4, name: "Mahindra Jeeto", price: 450000, category: "Tempo", type: "Mini Truck", img: "jeeto.jpg", brand: "Mahindra" },
+    { id: 5, name: "Ashok Leyland 1612", price: 2850000, category: "Truck", type: "Heavy Truck", img: "leland.jpg", brand: "Ashok Leyland" },
+    { id: 6, name: "BharatBenz Dumper", price: 4200000, category: "Dumper", type: "Mining Dumper", img: "dumper.avif", brand: "BharatBenz" },
+    { id: 7, name: "Tata Trailer 40FT", price: 5500000, category: "Trailer", type: "Container Trailer", img: "trailer.jpg", brand: "Tata Motors" },
+    { id: 8, name: "JCB 3DX Backhoe", price: 3200000, category: "Earthmovers", type: "Excavator", img: "3d.jpg", brand: "JCB" },
+    { id: 9, name: "Caterpillar D6 Dozer", price: 12800000, category: "Machine", type: "Bulldozer", img: "caterpiller.jpg", brand: "Caterpillar" },
+    { id: 10, name: "Royal Enfield Hunter 350", price: 179000, category: "Two Wheeler", type: "Cruiser", img: "hunter.jpg", brand: "Royal Enfield" },
+    { id: 11, name: "TVS Jupiter", price: 82000, category: "Non Gear", type: "Scooter", img: "jupitor.jpg", brand: "TVS" },
+    { id: 12, name: "Mahindra Thar", price: 1650000, category: "Four Wheeler", type: "Off-Road", img: "thar.jpg", brand: "Mahindra" },
+    { id: 13, name: "Force Tempo Traveller", price: 1850000, category: "Tempo", type: "Passenger", img: "force.jpg", brand: "Force" },
+    { id: 14, name: "Eicher Pro 1110", price: 2400000, category: "Truck", type: "Medium Truck", img: "eicher.jpg", brand: "Eicher" },
+    { id: 15, name: "Komatsu Dumper HD", price: 8900000, category: "Dumper", type: "Articulated", img: "kom_dumper.jpg", brand: "Komatsu" },
+    { id: 16, name: "Trailer Lowbed", price: 4800000, category: "Trailer", type: "Lowbed", img: "lowbed_traler.jpg", brand: "Volvo" },
+    { id: 17, name: "Hitachi Excavator", price: 7200000, category: "Earthmovers", type: "Hydraulic", img: "tata.jpg", brand: "Hitachi" },
+    { id: 18, name: "Poclain Machine", price: 4500000, category: "Machine", type: "Heavy Loader", img: "pocklane.jpg", brand: "Poclain" }
+
+];
+
+  let cart = [];
+  let currentLang = "en";
+  let currentCategory = "all";
+  let currentSearch = "";
+
+  const translations = {
+    en: { navHome:"Home", navVehicles:"Vehicles", navCart:"Cart", navLogin:"Login", heroTitle:"Find Your Dream Vehicle", heroDesc:"Two Wheelers | Four Wheelers | Trucks | Dumper | Trailers | Earthmovers & Heavy Machinery", search:"Search", explore:"Explore Now", popular:"🔥 Premium Fleet", why:"⭐ Why Choose Us?", whyDesc:"✔ Best Prices | ✔ Trusted Dealers | ✔ Pan India Delivery | ✔ 24/7 Support | ✔ Free Insurance | ✔ EMI Options", footer:"© 2026 AutoElite | All Vehicles One Stop 🚛", view:"View Details", addToCart:"Add to Cart", emptyCart:"✨ Cart empty", checkout:"🛒 Checkout", total:"Total", categories:"Categories", all:"All Vehicles", twoWheeler:"Two Wheeler", fourWheeler:"Four Wheeler", nonGear:"Non Gear", tempo:"Tempo", truck:"Truck", dumper:"Dumper", trailer:"Trailer", earthmovers:"Earthmovers", machine:"Machine" },
+    hi: { navHome:"होम", navVehicles:"वाहन", navCart:"कार्ट", navLogin:"लॉगिन", heroTitle:"अपना सपनों का वाहन खोजें", heroDesc:"दो पहिया | चार पहिया | ट्रक | डंपर | ट्रेलर | अर्थमूवर्स और मशीनरी", search:"खोजें", explore:"अन्वेषण", popular:"🔥 प्रीमियम बेड़ा", why:"⭐ हम क्यों?", whyDesc:"✔ बेस्ट प्राइस | ✔ विश्वसनीय डीलर | ✔ पैन इंडिया डिलीवरी | ✔ 24/7 सहायता | ✔ मुफ्त बीमा", footer:"© 2026 AutoElite | सभी वाहन एक जगह 🚛", view:"विवरण", addToCart:"कार्ट में डालें", emptyCart:"✨ कार्ट खाली", checkout:"🛒 चेकआउट", total:"कुल", categories:"श्रेणियाँ", all:"सभी वाहन", twoWheeler:"दोपहिया", fourWheeler:"चौपहिया", nonGear:"नॉन गियर", tempo:"टेंपो", truck:"ट्रक", dumper:"डंपर", trailer:"ट्रेलर", earthmovers:"अर्थमूवर्स", machine:"भारी मशीन" },
+    mr: { navHome:"मुख्यपृष्ठ", navVehicles:"वाहने", navCart:"कार्ट", navLogin:"लॉगिन", heroTitle:"तुमचे स्वप्नातील वाहन शोधा", heroDesc:"दुचाकी | चारचाकी | ट्रक | डंपर | ट्रेलर | अर्थमूवर्स आणि मशीन्स", search:"शोधा", explore:"एक्सप्लोर", popular:"🔥 प्रीमियम फ्लीट", why:"⭐ आमची निवड का?", whyDesc:"✔ उत्तम किमती | ✔ विश्वासू डीलर | ✔ पॅन इंडिया डिलिव्हरी | ✔ 24/7 मदत", footer:"© 2026 AutoElite | सर्व वाहने एकाच ठिकाणी 🚛", view:"तपशील", addToCart:"कार्टमध्ये घाला", emptyCart:"✨ कार्ट रिकामे", checkout:"🛒 खरेदी", total:"एकूण", categories:"श्रेणी", all:"सर्व वाहने", twoWheeler:"दुचाकी", fourWheeler:"चारचाकी", nonGear:"नॉन गियर", tempo:"टेंपो", truck:"ट्रक", dumper:"डंपर", trailer:"ट्रेलर", earthmovers:"अर्थमूवर्स", machine:"जड यंत्रे" }
+  };
+
+  function updateUILanguage() {
+    const t = translations[currentLang];
+    document.getElementById("navHome").innerHTML = `<i class="fas fa-home"></i> <span>${t.navHome}</span>`;
+    document.getElementById("navVehicles").innerHTML = `<i class="fas fa-car"></i> <span>${t.navVehicles}</span>`;
+    document.getElementById("navCartBtnNav").innerHTML = `<i class="fas fa-shopping-cart"></i> <span>${t.navCart}</span> <span id="cartCountBadge" class="cart-badge">${cart.reduce((s,i)=>s+i.quantity,0)}</span>`;
+    document.getElementById("navLogin").innerHTML = `<i class="fas fa-user-circle"></i> <span>${t.navLogin}</span>`;
+    document.getElementById("heroTitle").innerText = t.heroTitle;
+    document.getElementById("heroDesc").innerText = t.heroDesc;
+    document.getElementById("searchBtn").innerHTML = `<i class="fas fa-search"></i> ${t.search}`;
+    document.getElementById("exploreBtn").innerHTML = `<i class="fas fa-arrow-right"></i> ${t.explore}`;
+    document.getElementById("popularTitle").innerHTML = t.popular;
+    document.getElementById("whyTitle").innerHTML = t.why;
+    document.getElementById("whyDesc").innerHTML = t.whyDesc;
+    document.getElementById("footerText").innerText = t.footer;
+    document.getElementById("categoriesText").innerText = t.categories;
+    renderQuickCategoryTabs();
+    renderVehicleCards();
+    renderTopModels(); 
+    updateCartUI();
+  }
+function subscribeNewsletter() {
+  const email = document.getElementById("newsletterEmail").value;
+  if (email && email.includes('@')) {
+    showToast("🎉 Subscribed successfully! Check your inbox.");
+    document.getElementById("newsletterEmail").value = "";
+  } else {
+    showToast("⚠️ Please enter a valid email address");
+  }
+}
+  function renderQuickCategoryTabs() {
+  const t = translations[currentLang];
+  const cats = [
+    { key: "all", label: t.all },
+    { key: "Two Wheeler", label: t.twoWheeler },
+    { key: "Four Wheeler", label: t.fourWheeler },
+    { key: "Non Gear", label: t.nonGear },
+    { key: "Tempo", label: t.tempo },
+    { key: "Truck", label: t.truck },
+    { key: "Dumper", label: t.dumper },
+    { key: "Trailer", label: t.trailer },
+    { key: "Earthmovers", label: t.earthmovers },
+    { key: "Machine", label: t.machine }
+  ];
+  const container = document.getElementById("quickCats");
+  container.innerHTML = cats.map(cat => `<button class="cat-filter ${currentCategory === cat.key ? 'active' : ''}" data-cat="${cat.key}">${cat.label}</button>`).join("");
+  document.querySelectorAll(".cat-filter").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentCategory = btn.dataset.cat;
+      renderVehicleCards();
+      renderQuickCategoryTabs();
+    });
+  });
+}
+
+  function renderVehicleCards() {
+    let filtered = vehiclesData.filter(v => {
+      const matchCat = currentCategory === "all" || v.category === currentCategory;
+      const matchSearch = currentSearch === "" || v.name.toLowerCase().includes(currentSearch.toLowerCase()) || v.brand.toLowerCase().includes(currentSearch.toLowerCase()) || v.category.toLowerCase().includes(currentSearch.toLowerCase());
+      return matchCat && matchSearch;
+    });
+    const container = document.getElementById("vehiclesContainer");
+    if (filtered.length === 0) { container.innerHTML = `<div style="grid-column:1/-1; padding:40px;">🚫 No vehicles found</div>`; return; }
+    const t = translations[currentLang];
+    container.innerHTML = filtered.map(v => `
+      <div class="card">
+        <img src="${v.img}" onerror="this.src='https://placehold.co/600x400?text=Vehicle'" alt="${v.name}">
+        <h3>${v.name}</h3>
+        <div class="price">₹${v.price.toLocaleString('en-IN')}</div>
+        <div class="card-actions">
+          <button class="viewBtn" data-id="${v.id}">👁️ ${t.view}</button>
+          <button class="cartBtn" data-id="${v.id}"><i class="fas fa-cart-plus"></i> ${t.addToCart}</button>
+        </div>
+      </div>
+    `).join("");
+    document.querySelectorAll(".viewBtn").forEach(btn => btn.addEventListener("click", (e) => { let id = parseInt(btn.dataset.id); let vh = vehiclesData.find(x=>x.id===id); showToast(`🔍 ${vh.name}: ${translations[currentLang].view} — EMI, warranty available`); }));
+    document.querySelectorAll(".cartBtn").forEach(btn => btn.addEventListener("click", (e) => { addToCart(parseInt(btn.dataset.id)); }));
+  }
+
+  function addToCart(id) {
+    const vehicle = vehiclesData.find(v => v.id === id);
+    if (!vehicle) return;
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.quantity += 1;
+    else cart.push({ id: vehicle.id, name: vehicle.name, price: vehicle.price, quantity: 1 });
+    updateCartUI();
+    showToast(`✅ ${vehicle.name} +1 (${translations[currentLang].addToCart})`);
+  }
+
+  function updateCartUI() {
+    const t = translations[currentLang];
+    const cartDiv = document.getElementById("cartItemsList");
+    const totalSpan = document.getElementById("cartTotalPrice");
+    const badge = document.getElementById("cartCountBadge");
+    const totalItems = cart.reduce((s,i)=>s+i.quantity,0);
+    if(badge) badge.innerText = totalItems;
+    if(cart.length===0){ cartDiv.innerHTML = `<div>🛒 ${t.emptyCart}</div>`; totalSpan.innerText = "₹0"; return; }
+    let total=0;
+    cartDiv.innerHTML = cart.map(item => {
+      total += item.price * item.quantity;
+      return `<div class="cart-item"><div><strong>${item.name}</strong><br>₹${item.price.toLocaleString('en-IN')} x ${item.quantity}</div><button class="remove-item" data-id="${item.id}" style="background:#dc2626; border:none; padding:5px 12px; border-radius:30px;">🗑️</button></div>`;
+    }).join("");
+    totalSpan.innerText = `₹${total.toLocaleString('en-IN')}`;
+    document.querySelectorAll(".remove-item").forEach(btn => btn.addEventListener("click", (e) => { const idx = cart.findIndex(i=>i.id===parseInt(btn.dataset.id)); if(idx!==-1) cart.splice(idx,1); updateCartUI(); showToast("🗑️ Removed"); }));
+  }
+  // Render Top Trending Models
+function renderTopModels() {
+  const container = document.getElementById("topModelsContainer");
+  if (!container) return;
+  
+  container.innerHTML = topModels.map(model => `
+    <div class="model-card">
+      <div class="model-badge">${model.badge}</div>
+      <img src="${model.img}" onerror="this.src='https://placehold.co/600x400?text=Vehicle'" alt="${model.name}">
+      <div class="model-info">
+        <h3>${model.name} <span style="font-size: 0.8rem; color: #fbbf24;">${model.rating}</span></h3>
+        <div class="model-price">₹${model.price.toLocaleString('en-IN')}</div>
+        <div class="model-features">
+          ${model.features.map(f => `<span><i class="fas fa-check-circle"></i> ${f}</span>`).join('')}
+        </div>
+        <button class="model-btn" onclick="addToCartFromModel(${model.id})">
+          <i class="fas fa-shopping-cart"></i> Quick Buy
+        </button>
+      </div>
+    </div>
+  `).join("");
+}
+
+// Add to cart from top models
+function addToCartFromModel(modelId) {
+  const model = topModels.find(m => m.id === modelId);
+  if (model) {
+    const existing = cart.find(i => i.name === model.name);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ id: modelId, name: model.name, price: model.price, quantity: 1 });
+    }
+    updateCartUI();
+    showToast(`✅ ${model.name} added to cart!`);
+  }
+}
+
+  function showToast(msg) { let t = document.querySelector(".toast-msg"); if(t) t.remove(); let div=document.createElement("div"); div.className="toast-msg"; div.innerHTML=`<i class="fas fa-bell"></i> ${msg}`; document.body.appendChild(div); setTimeout(()=>div.style.opacity="0",2500); setTimeout(()=>div.remove(),3000); }
+  function openCart() { document.getElementById("cartSidebar").classList.add("open"); }
+  function closeCart() { document.getElementById("cartSidebar").classList.remove("open"); }
+
+  document.getElementById("searchBtn").addEventListener("click",()=>{ currentSearch=document.getElementById("searchInput").value; renderVehicleCards(); document.getElementById("vehiclesSection").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("searchInput").addEventListener("keyup",e=>{if(e.key==="Enter") document.getElementById("searchBtn").click();});
+  document.getElementById("exploreBtn").addEventListener("click",()=>{ currentSearch=""; document.getElementById("searchInput").value=""; renderVehicleCards(); document.getElementById("vehiclesSection").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("navCartBtnNav").addEventListener("click",(e)=>{e.preventDefault(); openCart();});
+  document.getElementById("closeCartBtn").addEventListener("click",closeCart);
+  document.getElementById("checkoutBtn").addEventListener("click",()=>{ if(cart.length===0){ showToast(translations[currentLang].emptyCart); return; } showToast("🎉 Order placed (Demo) Thanks!"); cart=[]; updateCartUI(); closeCart(); });
+  document.getElementById("navHome").addEventListener("click",(e)=>{e.preventDefault(); window.scrollTo({top:0,behavior:"smooth"}); currentSearch=""; document.getElementById("searchInput").value=""; currentCategory="all"; renderVehicleCards(); renderQuickCategoryTabs(); });
+  document.getElementById("navVehicles").addEventListener("click",(e)=>{e.preventDefault(); document.getElementById("vehiclesSection").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("navLogin").addEventListener("click",(e)=>{e.preventDefault(); showToast("🔐 Welcome to AutoElite Club!");});
+  document.getElementById("langSelect").addEventListener("change",(e)=>{ currentLang=e.target.value; updateUILanguage(); renderVehicleCards(); });
+  document.querySelectorAll(".category-menu a").forEach(link=>{ link.addEventListener("click",(e)=>{ e.preventDefault(); currentCategory=link.dataset.cat; renderVehicleCards(); renderQuickCategoryTabs(); document.getElementById("vehiclesSection").scrollIntoView({behavior:"smooth"}); }); });
+  window.addEventListener("click",(e)=>{ const s=document.getElementById("cartSidebar"); if(s.classList.contains("open") && !s.contains(e.target) && !e.target.closest("#navCartBtnNav") && !e.target.closest(".cartBtn")) closeCart(); });
+  updateUILanguage();
+  renderVehicleCards();
+</script>
+</body>
+</html>
